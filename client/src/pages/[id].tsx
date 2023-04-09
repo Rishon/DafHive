@@ -14,7 +14,10 @@ const DocumentPage = () => {
 
   useEffect(() => {
     const fetchDocument = async () => {
-      const res = await fetch(`http://localhost:3001/api/documents/${id}`);
+      const res = await fetch(`${process.env.API_ROUTE}/api/documents/${id}`, {
+        method: "GET",
+        mode: 'no-cors',
+      });
 
       if (res.ok) {
         const data = await res.json();

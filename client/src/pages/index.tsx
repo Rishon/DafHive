@@ -7,8 +7,9 @@ const IndexPage = () => {
   const [content, setContent] = useState("");
 
   const handleSave = async () => {
-    const res = await fetch("http://localhost:3001/api/documents", {
+    const res = await fetch(`${process.env.API_ROUTE}/api/documents`, {
       method: "POST",
+      mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
       },

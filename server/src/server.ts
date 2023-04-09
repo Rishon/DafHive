@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3001;
 const MONGO_URI = process.env.MONGO_URI;
 
 if (!MONGO_URI) {
-  console.error("Please set the MONGO_URI environment variable");
+  console.error("Please set the MONGO_URI environment variable ");
   process.exit(1);
 }
 
