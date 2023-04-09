@@ -7,11 +7,12 @@ const IndexPage = () => {
   const [content, setContent] = useState("");
 
   const handleSave = async () => {
-    const res = await fetch(`${process.env.API_ROUTE}/api/documents`, {
+    const res = await fetch(`${process.env.API_URL}/api/documents`, {
       method: "POST",
       mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",    
       },
       body: JSON.stringify({ content }),
     });

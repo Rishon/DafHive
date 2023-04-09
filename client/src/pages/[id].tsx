@@ -14,9 +14,12 @@ const DocumentPage = () => {
 
   useEffect(() => {
     const fetchDocument = async () => {
-      const res = await fetch(`${process.env.API_ROUTE}/api/documents/${id}`, {
+      const res = await fetch(`${process.env.API_URL}/api/documents/${id}`, {
         method: "GET",
         mode: 'no-cors',
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
       });
 
       if (res.ok) {
