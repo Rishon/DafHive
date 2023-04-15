@@ -29,7 +29,10 @@ app.post("/api/documents", async (req, res) => {
   }
 
   const db = client.db();
-  const result = await db.collection("documents").insertOne({ content });
+
+  const result = await db
+    .collection("documents")
+    .insertOne({ content, createdAt: Date.now() });
 
   res.send({ id: result.insertedId });
 });
@@ -48,7 +51,7 @@ app.get("/api/documents/:id", async (req, res) => {
       return res.status(404).send({ message: "Document not found" });
     }
 
-    res.send({ content: document.content });
+    res.send({ content: document.content, createdAt: document.createdAt });
   } catch (err) {
     console.error(err);
     res.status(500).send({ message: "Server error" });

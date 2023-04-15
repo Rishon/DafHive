@@ -1,31 +1,45 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "../components/Layout";
+import axios from "axios";
+
+const API_URL: string = process.env.NEXT_PUBLIC_API_URL;
 
 const IndexPage = () => {
   const router = useRouter();
   const [content, setContent] = useState("");
 
   const handleSave = async () => {
-    const res = await fetch(`${process.env.API_URL}/api/documents`, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",    
-      },
-      body: JSON.stringify({ content }),
-    });
+    await axios
+      .post(`${API_URL}/api/documents`, JSON.stringify({ content }), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        if (res.status !== 200) {
+          router.push("/");
+          return;
+        }
 
-    if (res.ok) {
-      const { id } = await res.json();
-      router.push(`/${id}`);
-    }
+        try {
+          const { id } = res.data;
+          router.push(`/${id}`);
+        } catch (error) {
+          console.log(error.message);
+          router.push("/");
+          return;
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        router.push("/");
+      });
   };
 
   return (
     <Layout>
-      <h1>Welcome to Hastebin!</h1>
+      <h1>Welcome!</h1>
       <p>Paste your content below:</p>
       <textarea value={content} onChange={(e) => setContent(e.target.value)} />
       <button onClick={handleSave}>Save</button>

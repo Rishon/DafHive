@@ -16,7 +16,9 @@ const Layout = ({ children }: LayoutProps) => {
 
       <footer>
         <hr />
-        <p>Hastebin - a simple pastebin alternative</p>
+        <code>
+          Made with ♥ by <a href="https://rishon.systems">rishon.systems</a>{" "}
+        </code>
       </footer>
     </div>
   );

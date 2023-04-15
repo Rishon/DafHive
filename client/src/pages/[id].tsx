@@ -1,33 +1,60 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "../components/Layout";
+import axios from "axios";
 
 type Document = {
-  code: string;
-  createdAt: string;
+  content: string;
+  createdAt: number;
 };
+
+const API_URL: string = process.env.NEXT_PUBLIC_API_URL;
 
 const DocumentPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const [document, setDocument] = useState<Document>();
 
+  const formatDate = (dateString: number) => {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: false,
+    };
+    return date
+      .toLocaleString(undefined, options)
+      .replace(/(\d+)(th|nd|rd|st)/, "$1");
+  };
+
   useEffect(() => {
     const fetchDocument = async () => {
-      const res = await fetch(`${process.env.API_URL}/api/documents/${id}`, {
-        method: "GET",
-        mode: 'no-cors',
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      });
+      await axios
+        .get(`${API_URL}/api/documents/${id}`)
+        .then((res) => {
+          if (res.status !== 200) {
+            router.push("/");
+            return;
+          }
 
-      if (res.ok) {
-        const data = await res.json();
-        setDocument(data);
-      } else {
-        router.push("/");
-      }
+          try {
+            const data = res.data;
+            setDocument(data);
+          } catch (error) {
+            router.push("/");
+            console.log(error.message);
+            return;
+          }
+        })
+        .catch((error) => {
+          console.log(error.message);
+          router.push("/");
+          return;
+        });
     };
 
     if (id) {
@@ -40,8 +67,8 @@ const DocumentPage = () => {
       <h1>Document {id}</h1>
       {document ? (
         <>
-          <p>Created at: {document.createdAt}</p>
-          <textarea value={document.code} readOnly />
+          <p>Created on: {formatDate(document.createdAt)}</p>
+          <textarea value={document.content} readOnly />
         </>
       ) : (
         <p>Loading...</p>
