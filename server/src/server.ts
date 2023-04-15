@@ -20,6 +20,16 @@ client.connect();
 app.use(cors());
 app.use(express.json());
 
+// Index route
+app.get("/", (req, res) => {
+  res.send("uwu");
+});
+
+// 404 route
+app.get("*", (req, res) => {
+  res.status(404).redirect("/");
+});
+
 // Define the endpoint for creating a new document
 app.post("/api/documents", async (req, res) => {
   const { content } = req.body;
