@@ -39,8 +39,6 @@ const IndexPage = () => {
 
   return (
     <Layout>
-      <h1>Welcome!</h1>
-      <p>Paste your content below:</p>
       <textarea value={content} onChange={(e) => setContent(e.target.value)} />
       <button onClick={handleSave}>Save</button>
     </Layout>

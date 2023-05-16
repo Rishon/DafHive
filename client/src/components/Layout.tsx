@@ -8,14 +8,13 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div>
       <Head>
-        <title>Hastebin</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>DafHive</title>
+        <link rel="icon" href="/logo.ico" />
       </Head>
 
       <main>{children}</main>
 
       <footer>
-        <hr />
         <code>
           Made with ♥ by <a href="https://rishon.systems">rishon.systems</a>{" "}
         </code>

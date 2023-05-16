@@ -14,6 +14,7 @@ if (!MONGO_URI) {
   process.exit(1);
 }
 
+// Connect to database
 const client = new MongoClient(MONGO_URI);
 client.connect();
 
@@ -35,11 +36,14 @@ app.post("/api/documents", async (req, res) => {
 
   const db = client.db();
 
-  const result = await db
-    .collection("documents")
-    .insertOne({ content, createdAt: Date.now() });
+  // Random ID
+  let ID = Math.random().toString(36).substring(2, 10);
 
-  res.send({ id: result.insertedId });
+  await db
+    .collection("documents")
+    .insertOne({ documentID: ID, content, createdAt: Date.now() });
+
+  res.send({ id: ID });
 });
 
 // Define the endpoint for getting a document by ID
@@ -50,7 +54,7 @@ app.get("/api/documents/:id", async (req, res) => {
     const db = client.db();
     const document = await db
       .collection("documents")
-      .findOne({ _id: new ObjectId(id) });
+      .findOne({ documentID: id });
 
     if (!document) {
       return res.status(404).send({ message: "Document not found" });

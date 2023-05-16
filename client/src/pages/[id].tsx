@@ -64,10 +64,9 @@ const DocumentPage = () => {
 
   return (
     <Layout>
-      <h1>Document {id}</h1>
       {document ? (
         <>
-          <p>Created on: {formatDate(document.createdAt)}</p>
+          <p className="document-date">{formatDate(document.createdAt)}</p>
           <textarea value={document.content} readOnly />
         </>
       ) : (
