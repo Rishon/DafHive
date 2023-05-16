@@ -12,13 +12,16 @@ const Layout = ({ children }: LayoutProps) => {
         <link rel="icon" href="/logo.ico" />
       </Head>
 
-      <main>{children}</main>
+      <div className="container">
+        <main>{children}</main>
 
-      <footer>
-        <code>
-          Made with ♥ by <a href="https://rishon.systems">rishon.systems</a>{" "}
-        </code>
-      </footer>
+        <footer>
+          <code>
+            Made with ♥ by{" "}
+            <a href="https://rishon.systems">rishon.systems</a>{" "}
+          </code>
+        </footer>
+      </div>
     </div>
   );
 };

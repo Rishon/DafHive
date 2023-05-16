@@ -37,10 +37,31 @@ const IndexPage = () => {
       });
   };
 
+  const renderLineNumbers = () => {
+    const lines = content.split("\n");
+    return lines.map((_, index) => (
+      <div key={index} className="line-number">
+        {index + 1}
+      </div>
+    ));
+  };
+
   return (
     <Layout>
-      <textarea value={content} onChange={(e) => setContent(e.target.value)} />
-      <button onClick={handleSave}>Save</button>
+      <div className="styled-box">
+        <div className="box-shadow"></div>
+        <div className="buttons">
+          <button onClick={handleSave}>Save</button>
+        </div>
+      </div>
+
+      <div className="code-editor">
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Enter your content here"
+        />
+      </div>
     </Layout>
   );
 };
